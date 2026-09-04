@@ -1,14 +1,16 @@
-# Aplikasi Perpustakaan Digital Kampus
+# App Perpustakaan Digital Kampus
 
-Sistem Perpustakaan Digital Kampus dibangun menggunakan Laravel 12 untuk mengelola data buku, anggota, dan transaksi peminjaman.
+Aplikasi web manajemen perpustakaan kampus berbasis Laravel 12 untuk mengelola data buku, anggota, dan transaksi peminjaman.
 
-## Cara Menjalankan Project
+## Cara Menjalankan Project Secara Lokal
 1. Clone repository: `git clone https://github.com/Almoesz1/app-perpustakaan.git`
-2. Jalankan `composer install`
-3. Konfigurasi database di `.env` (`DB_DATABASE=db_perpustakaan`)
-4. Jalankan server: `php artisan serve`
+2. Masuk ke direktori: `cd app-perpustakaan`
+3. Install dependency: `composer install`
+4. Konfigurasi file `.env` (pastikan PostgreSQL berjalan dan database `db_perpustakaan` sudah dibuat)
+5. Jalankan server development: `php artisan serve`
+6. Akses aplikasi di browser: `http://127.0.0.1:8000`
 
 ## Pemahaman Konsep MVC (Model-View-Controller)
-- **Model**: Mengelola data, relasi antar tabel, dan aturan bisnis database.
-- **View**: Menangani tampilan antarmuka (UI) menggunakan file Blade HTML yang dilihat oleh pengguna.
-- **Controller**: Bertindak sebagai jembatan yang menerima HTTP Request, memproses data via Model, lalu mengembalikan data ke View.
+- **Model**: Mengelola struktur data, aturan bisnis, dan interaksi langsung dengan tabel database.
+- **View**: Bertanggung jawab menampilkan antarmuka pengguna (UI) dalam bentuk template HTML/Blade tanpa memuat logika bisnis rumit.
+- **Controller**: Bertindak sebagai jembatan penghubung yang menerima permintaan pengguna (request), memproses logika melalui Model, lalu mengirimkan hasilnya ke View.
