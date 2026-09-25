@@ -47,3 +47,14 @@ return new class extends Migration
         Schema::dropIfExists('sessions');
     }
 };
+
+Schema::create('users', function (Blueprint $table) {
+    $table->id();
+    $table->string('name');
+    $table->string('email')->unique();
+    $table->timestamp('email_verified_at')->nullable();
+    $table->string('password');
+    $table->enum('role', ['admin', 'petugas'])->default('petugas'); // Kolom baru
+    $table->rememberToken();
+    $table->timestamps();
+});
