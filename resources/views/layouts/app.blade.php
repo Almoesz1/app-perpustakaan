@@ -16,6 +16,10 @@
         th, td { border: 1px solid #ccc; padding: 8px 12px; text-align: left; }
         .alert-success { background: #d1fae5; color: #065f46; padding: 10px 14px; border-radius: 4px; margin-bottom: 16px; }
         .btn { display: inline-block; padding: 6px 14px; background: #2563eb; color: #fff; text-decoration: none; border-radius: 4px; border: none; cursor: pointer; }
+        .badge { display: inline-block; padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: bold; text-transform: capitalize; }
+        .badge-dipinjam { background: #fef08a; color: #854d0e; }
+        .badge-dikembalikan { background: #d1fae5; color: #065f46; }
+        .badge-terlambat { background: #fecaca; color: #991b1b; }
         form.inline { display: inline; }
         footer { text-align: center; padding: 20px; color: #6b7280; font-size: 14px; border-top: 1px solid #e5e7eb; margin-top: 40px; }
         label { display: block; margin-top: 12px; font-weight: bold; }
