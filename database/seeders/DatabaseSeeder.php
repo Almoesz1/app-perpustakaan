@@ -13,7 +13,7 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        // 1. Buat User Petugas/Admin
+        // 1. Buat User Petugas/Admin langsung di sini
         User::create([
             'name' => 'Petugas Perpustakaan',
             'email' => 'petugas@perpustakaan.com',
