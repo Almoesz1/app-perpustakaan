@@ -6,7 +6,9 @@ use App\Models\Book;
 use App\Models\Loan;
 use App\Models\Member;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth; // <-- Tambahan untuk mengatasi error VS Code
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http; // 1. MEMPERBAIKI ERROR HTTP FACADE
+use Illuminate\Http\Client\ConnectionException; // 2. MEMPERBAIKI ERROR EXCEPTION
 
 class LoanController extends Controller
 {
@@ -20,7 +22,6 @@ class LoanController extends Controller
     {
         $members = Member::all();
         $books = Book::all();
-
         return view('loans.create', compact('members', 'books'));
     }
 
@@ -36,7 +37,7 @@ class LoanController extends Controller
 
         $loan = Loan::create([
             'member_id' => $validated['member_id'],
-            'user_id' => Auth::id(), // <-- MENGGUNAKAN FACADE (TIDAK AKAN ERROR LAGI)
+            'user_id' => Auth::id(),
             'tanggal_pinjam' => $validated['tanggal_pinjam'],
             'tanggal_kembali' => $validated['tanggal_kembali'],
             'status' => 'dipinjam',
@@ -65,6 +66,9 @@ class LoanController extends Controller
     public function update(Request $request, string $id)
     {
         $loan = Loan::findOrFail($id);
+        
+        // 3. MEMPERBAIKI VALIDASI: Memasukkan 'tanggal_pinjam' ke request agar aturan 'after_or_equal' bekerja
+        $request->merge(['tanggal_pinjam' => $loan->tanggal_pinjam]);
 
         $validated = $request->validate([
             'tanggal_kembali' => 'required|date|after_or_equal:tanggal_pinjam',
@@ -75,6 +79,23 @@ class LoanController extends Controller
 
         return redirect()->route('loans.index')
             ->with('success', 'Transaksi peminjaman berhasil diperbarui.');
+    }
+
+    public function report(Request $request)
+    {
+        $body = ['data' => [], 'meta' => null];
+
+        try {
+            $response = Http::get(config('services.internal_api.base_url').'/api/loans', [
+                'page' => $request->query('page', 1),
+            ]);
+
+            if ($response->successful()) {
+                $body = $response->json();
+            }
+        } catch (ConnectionException $e) {}
+
+        return view('loans.report', ['loans' => $body['data'] ?? [], 'meta' => $body['meta'] ?? null]);
     }
 
     public function destroy(string $id)
